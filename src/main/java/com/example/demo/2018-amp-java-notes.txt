@@ -1,5 +1,150 @@
 2018-03 amp notes from java web development class
 
+Questions & to-do
+- Q sample of git when changes may conflict, several people working on different features
+- Q git, when do you do a branch vs tag?
+- Q review the git "Team Workflow" notes below
+- Q explain git pull
+- Q double check what git reset does
+- Q questions on https://canvas.instructure.com/courses/1300067/pages/creating-a-merge-conflict
+- Q if I do git checkout mod1, add some files and make changes, but don't check them in, and then do git checkout mod2, do my changes get lost?
+
+- Todo: http://www.eqqon.com/index.php/Collaborative_Github_Workflow
+
+
 
 GIT Notes
-To explorer:  git provides access control and several collaboration features such as wikis, task management, and bug tracking and feature requests for every project.
+- References
+  - https://git-scm.com/docs     (describes every git command and their options)
+  - http://cheat.errtheblog.com/s/git
+  - http://www.eqqon.com/index.php/Collaborative_Github_Workflow
+  - http://nvie.com/posts/a-successful-git-branching-model/
+  - https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf
+- To explore:  git provides access control and several collaboration features such as wikis, task management, and bug tracking and feature requests for every project.
+- In Git you tag commits (and not branches).  Tag is a name for a particular commit.
+- Convention:
+  - origin/master = main branch (where the source code of HEAD always reflects a production-ready state)
+  - origin/develop = branch where HEAD's source is the latest delivered development changes for the next release,
+    also called “integration branch”. automatic nightly builds are built from this
+  - feature branch.  Usually on developer's machine, for a future feature to be added, or an experiment,
+    then merged or discarded.
+
+    Starting on a new feature, usually branch off from the develop branch:
+    $ git checkout -b myfeature develop
+
+
+Team Workflow
+Anything in the master branch is deployable
+To work on something new, issue a pull request then create a descriptively named branch off of master (ie: new-oauth2-scopes)
+Commit to that branch locally and regularly push your work to the same named branch on the server
+When you need feedback or help, or you think the branch is ready for merging, then pull
+After you have reviewed and tested the feature, you can merge it into master
+Once it is merged and pushed to ‘master’, you can and should deploy immediately
+
+
+fork=a copy of a repository, allows you to freely experiment with changes without affecting the original project,
+     used to either propose changes to someone else's project or to use someone else's project as a starting point for your own idea.
+     You can fork a repository using Github, and copy the fork into your github account
+Typical cycles: add, commit, push
+
+# set user id and email that git uses to stamp your changes
+git config --global user.name "your name"
+git config --global user.email "your email"
+
+Sample Session
+$ cd MyProject
+$ git init     # create new local git repository (if one exists, will not overwrite it, but can add templates to it)
+    # creates MyProject/.git directory.
+    # MyProject/.gitignore  file lists what files should not be tracked (e.g. object code, intermediate files, editor status files)
+    # git config --global core.excludesfile ~/.gitignore_global
+$ git add readme.md     # add file to git's index (files that git tracks)
+    # Doing $git add .  to add everything, including subdirectories.  Use .gitignore to skip certain files.
+$ git commit -m "initial commit"   # commit changes
+# add a new remote section called "origin"
+$ git remote add origin https://github.com/githubusername/githuprepositoryname.git
+$ git config -l   # get configurations
+$ git push -u origin master   # push committed changes to remote repository
+$ git status  # status of index, what needs to be committed
+$ git log # show history of commits for all branches (each branch has a sha hash identifier)
+   $ git log master  # show history only for master branch
+$ git show <commitId>  # to see info about a commitId (sha signature or commit tag name)
+
+# *** to work on a new branch ***
+$ git branch new_feature    # a new branch to do some changes.
+$ git branch                # list all local branches
+$ git checkout new_feature  # switches to this branch: the MyProject/... directory & files will all be changed to reflect this branch
+    # only the files that exist in this branch will show up in the MyProject directory
+$ git add shirts.txt  # add file to index
+$ git commit -m "Added shirts to product line"
+$ (create more files, and subdirectories)
+$ git add --all   # add all files and in subdirectories and check for deleted files
+$ git commit -m "Added more stuff"
+$ git log
+$ git checkout master  # switch back to working with the master branch
+$ git status  # none of the files from new_feature exist on master
+$ git ls-files
+$ git merge new_feature  # merge into master
+$ git branch -d new_feature # delete the branch
+$ git branch  # list all breanches, see that new_feature is gone
+$ git push -u origin master  # push changes to Github, remote origin <-- local master
+
+
+Make a local clone of a project
+$ mkdir MyVersion ; cd MyVersion
+$ git clone  https://github.com/WhateverUser/WhateverRepository
+
+To retrieve changes to your project after working on another computer
+$ git pull
+
+Other commands
+$ git checkout -b branch (ShaCheckoutId)     # creates new branch and checks it out
+
+# tell git about remote repositories you want to work with
+$ git remote -v  # view remote URLs
+$ git remote rm origin
+$ git remote add origin https://github.com/amp8293/SpringBoot_25.git
+$ git config -l # list all configurations to see the new remote that we call "origin" here
+$ git add .
+
+Undo a commit (if you did a commit by mistake and want to continue working as if you hadn't done the commit)
+$ git reset <commit_id>   # do git log to list all commits
+# careful: git reset --hard    will
+
+# Using SSH to connect to remote git servers
+# see: https://help.github.com/articles/connecting-to-github-with-ssh/
+Generate the SSH key with ssh-keygen -t rsa -b 4096
+Copy the content of your public SSH key, it is the file id_rsa.pub by default
+Paste the content into your GitHub/BitBucket account on the SSH key section
+
+
+
+
+A Sample .gitignore file:
+--------------------------------------------------------------------------------
+# Eclipse Specific #
+bin/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs #
+######################
+*.log
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+--------------------------------------------------------------------------------
