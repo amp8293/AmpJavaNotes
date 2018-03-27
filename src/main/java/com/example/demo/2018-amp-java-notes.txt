@@ -3,11 +3,13 @@
 Questions & to-do
 - Q sample of git when changes may conflict, several people working on different features
 - Q git, when do you do a branch vs tag?
-- Q review the git "Team Workflow" notes below
+- Q review the git "Team Workflow" notes below, what are commands for each?
 - Q explain git pull
 - Q double check what git reset does
 - Q questions on https://canvas.instructure.com/courses/1300067/pages/creating-a-merge-conflict
-- Q if I do git checkout mod1, add some files and make changes, but don't check them in, and then do git checkout mod2, do my changes get lost?
+
+
+  search gitlabs for git servers
 
 - Todo: http://www.eqqon.com/index.php/Collaborative_Github_Workflow
 
@@ -16,6 +18,7 @@ Questions & to-do
 GIT Notes
 - References
   - https://git-scm.com/docs     (describes every git command and their options)
+  - https://git-scm.com/book/en/v2  (book, downloadable format too)
   - http://cheat.errtheblog.com/s/git
   - http://www.eqqon.com/index.php/Collaborative_Github_Workflow
   - http://nvie.com/posts/a-successful-git-branching-model/
@@ -110,6 +113,9 @@ Undo a commit (if you did a commit by mistake and want to continue working as if
 $ git reset <commit_id>   # do git log to list all commits
 # careful: git reset --hard    will
 
+Edit a commit message
+# https://help.github.com/articles/changing-a-commit-message/
+
 # Using SSH to connect to remote git servers
 # see: https://help.github.com/articles/connecting-to-github-with-ssh/
 Generate the SSH key with ssh-keygen -t rsa -b 4096
@@ -148,3 +154,7 @@ bin/
 ehthumbs.db
 Thumbs.db
 --------------------------------------------------------------------------------
+
+
+- FAQ: if I do git checkout mod1, add some files and make changes, but don't check them in, and then do git checkout mod2, do my changes get lost?
+  yes will lose changes, will give errors if you try, letting you know you have unsaved changes
